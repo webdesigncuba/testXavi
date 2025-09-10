@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Seu Nome">
+    <meta name="description" content="Uma aplicação web para gerenciar medicamentos.">
+    <meta name="keywords" content="medicamento, gestão, saúde, farmácia">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Português">
+    <title>Gestão de Medicamentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="container-fluid p-3 bg-dark text-white">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <!-- Botão para abrir o menu lateral -->
+        <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+          <i class="bi bi-list"></i>
+        </button>
+        <h1 class="h3 d-inline">Gestão de Medicamentos</h1>
+      </div>
+      <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+    </div>
+  </header>
+
+  <!-- Menu lateral (offcanvas) -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title " id="sidebarMenuLabel">Gestão de Medicamentos</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="bi bi-house me-2"></i>Início</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-capsule me-2"></i> Medicamentos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-person me-2"></i> Usuários</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-gear me-2"></i> Configuração</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <section class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3 border-bottom ">
+      <h2 class="h4">Lista de Medicamentos</h2>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="input-group" style="max-width: 220px;">
+        <input type="text" class="form-control" placeholder="Buscar medicamento..." aria-label="Buscar">
+        <button class="btn btn-dark" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+
+      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMedicationModal"><i class="bi bi-plus-lg me-2"></i>Adicionar Medicamento</button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Apresentação</th>
+              <th scope="col">Via Administração</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="medicamentosTableBody"></tbody>
+      </table>
+    </div>  
+    </section>
+   
+    <!-- Modal para adicionar/editar medicamento -->
+    <div class="modal fade" id="addMedicationModal" tabindex="-1" aria-labelledby="addMedicationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Adicionar Medicamentos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label for="medName" class="form-label">Nome Comercial</label>
+                        <input type="text" class="form-control" id="medName" placeholder="Nome comercial">
+                    </div>
+                     <div class="col-12 mb-3">
+                        <label for="medDescription" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="medDescription" placeholder="Descrição do medicamento">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="medPresentation" class="form-label">Apresentação</label>
+                        <input type="text" class="form-control" id="medPresentation" placeholder="Ex: 100mg">
+                    </div>
+                    <div class="col-12 mb-6">
+                        <label class="form-label">Componentes Ativos</label>
+                        <div id="activeComponentsGrid">
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <input type="text" class="form-control" placeholder="Componente ativo">
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" placeholder="Concentração">
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" placeholder="Unidade">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-dark btn-sm btn-add mb-3" onclick="addActiveComponentRow()">Adicionar componente</button>
+                    </div>
+                    <script>
+                    function addActiveComponentRow() {
+                        const grid = document.getElementById('activeComponentsGrid');
+                        const row = document.createElement('div');
+                        row.className = 'row g-2 mb-2';
+                        row.innerHTML = `
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="Componente ativo">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" placeholder="Concentração">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" placeholder="Unidade">
+                            </div>
+                        `;
+                        grid.appendChild(row);
+                    }
+                    </script>
+                    <div class="col-12 mb-3">
+                        <label for="medRoute" class="form-label">Via de Administração</label>
+                        <input type="text" class="form-control" id="medRoute" placeholder="Ex: Oral">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="medControlled" class="form-label">Controlado</label>
+                        <input type="text" class="form-control" id="medControlled" placeholder="Ex: Sim">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="nomeSim" class="form-label">Nomes Similares</label>
+                        <input type="text" class="form-control" id="nomeSim" placeholder="Nomes Similares">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" onclick="saveForm()">Salvar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim do modal -->
+    <div class="modal fade" id="showMedicationModal" tabindex="-1" aria-labelledby="showMedicationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="showMedicationModalLabel">Detalhes do Medicamento</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="showMedicationBody">
+            <!-- Conteúdo preenchido dinamicamente -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+      crossorigin="anonymous">
+  </script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
