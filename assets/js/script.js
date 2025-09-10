@@ -11,6 +11,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const controlado = document.getElementById('medControlled').value.trim();
     const similares = document.getElementById('nomeSim').value.trim();
 
+    if (!nome || !descricao || !apresentacao || !via || !controlado) {
+      const alerta = document.createElement('div');
+      alerta.className = 'alert alert-danger alert-dismissible fade show';
+      alerta.role = 'alert';
+      alerta.innerHTML = `Por favor, preencha todos os campos obrigatórios.
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>`;
+      document.querySelector('#addMedicationModal .modal-body').prepend(alerta);
+      setTimeout(() => {
+        alerta.classList.remove('show');
+        alerta.classList.add('hide');
+      }, 3000);
+      return;
+    }
+
     const componentes = [];
     const linhas = document.querySelectorAll('#activeComponentsGrid .row');
     linhas.forEach(linha => {
@@ -49,6 +63,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('Medicamento salvo:', novoMedicamento);
     exibirMedicamentos();
+
+    const alerta = document.createElement('div');
+    alerta.className = 'alert alert-success alert-dismissible fade show';
+    alerta.role = 'alert';
+    alerta.innerHTML = `Medicamento salvo com sucesso!
+      <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>`;
+    document.body.appendChild(alerta);
+    setTimeout(() => {
+      alerta.classList.remove('show');
+      alerta.classList.add('hide');
+    }, 3000);
   }
 
   function exibirMedicamentos() {

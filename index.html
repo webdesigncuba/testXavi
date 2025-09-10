@@ -78,39 +78,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Adicionar Medicamentos</h5>
+                <h5 class="modal-title" id="exampleModalLabel" >Adicionar Medicamentos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <label for="medName" class="form-label">Nome Comercial</label>
-                        <input type="text" class="form-control" id="medName" placeholder="Nome comercial">
+                        <label for="medName" class="form-label">Nome Comercial<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="medName" placeholder="Nome comercial" required>
                     </div>
                      <div class="col-12 mb-3">
-                        <label for="medDescription" class="form-label">Descrição</label>
-                        <input type="text" class="form-control" id="medDescription" placeholder="Descrição do medicamento">
+                        <label for="medDescription" class="form-label">Descrição <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="medDescription" placeholder="Descrição do medicamento" required>
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="medPresentation" class="form-label">Apresentação</label>
-                        <input type="text" class="form-control" id="medPresentation" placeholder="Ex: 100mg">
+                        <label for="medPresentation" class="form-label">Apresentação <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="medPresentation" placeholder="Ex: 100mg" required>
                     </div>
                     <div class="col-12 mb-6">
                         <label class="form-label">Componentes Ativos</label>
                         <div id="activeComponentsGrid">
-                            <div class="row g-2 mb-2">
-                                <div class="col-6">
-                                    <input type="text" class="form-control" placeholder="Componente ativo">
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" class="form-control" placeholder="Concentração">
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" class="form-control" placeholder="Unidade">
-                                </div>
-                            </div>
+                            
                         </div>
                         <button type="button" class="btn btn-dark btn-sm btn-add mb-3" onclick="addActiveComponentRow()">Adicionar componente</button>
+                        <button type="button" class="btn btn-danger btn-sm btn-remove mb-3" onclick="removeActiveComponentRow()">Remover componente</button>
                     </div>
                     <script>
                     function addActiveComponentRow() {
@@ -119,29 +110,35 @@
                         row.className = 'row g-2 mb-2';
                         row.innerHTML = `
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="Componente ativo">
+                                <input type="text" class="form-control" placeholder="Componente ativo" required >
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control" placeholder="Concentração">
+                                <input type="text" class="form-control" placeholder="Concentração" required >
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control" placeholder="Unidade">
+                                <input type="text" class="form-control" placeholder="Unidade" required >
                             </div>
                         `;
                         grid.appendChild(row);
                     }
+                    function removeActiveComponentRow() {
+                        const grid = document.getElementById('activeComponentsGrid');
+                        if (grid.children.length >= 1) {
+                            grid.removeChild(grid.lastChild);
+                        }
+                    }
                     </script>
                     <div class="col-12 mb-3">
-                        <label for="medRoute" class="form-label">Via de Administração</label>
-                        <input type="text" class="form-control" id="medRoute" placeholder="Ex: Oral">
+                        <label for="medRoute" class="form-label">Via de Administração <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="medRoute" placeholder="Ex: Oral" required>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="medControlled" class="form-label">Controlado</label>
-                        <input type="text" class="form-control" id="medControlled" placeholder="Ex: Sim">
+                        <label for="medControlled" class="form-label">Controlado <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="medControlled" placeholder="Ex: Sim" required>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="nomeSim" class="form-label">Nomes Similares</label>
-                        <input type="text" class="form-control" id="nomeSim" placeholder="Nomes Similares">
+                        <label for="nomeSim" class="form-label">Nomes Similares <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nomeSim" placeholder="Nomes Similares" required>
                     </div>
                 </div>
             </div>
