@@ -52,23 +52,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function exibirMedicamentos() {
+    const filtro = document.getElementById('searchInput').value.toLowerCase();
     const tabela = document.getElementById('medicamentosTableBody');
     tabela.innerHTML = '';
     medicamentos.forEach((med, index) => {
-      const linha = document.createElement('tr');
-      linha.innerHTML = `
-        <th scope="row">${index + 1}</th>
-        <td>${med.nome}</td>
-        <td>${med.descricao}</td>
-        <td>${med.apresentacao}</td>
-        <td>${med.via}</td>
-        <td>
-          <button class="btn btn-sm btn-info me-2" onclick="mostrarMedicamento(${index})"><i class="bi bi-eye"></i></button>
-          <button class="btn btn-sm btn-primary me-2" onclick="editarMedicamento(${index})"><i class="bi bi-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="excluirMedicamento(${index})"><i class="bi bi-trash"></i></button>
-        </td>
-      `;
-      tabela.appendChild(linha);
+      if (med.nome.toLowerCase().includes(filtro)) {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+          <th scope="row">${index + 1}</th>
+          <td>${med.nome}</td>
+          <td>${med.descricao}</td>
+          <td>${med.apresentacao}</td>
+          <td>${med.via}</td>
+          <td>
+            <button class="btn btn-sm btn-info me-2" onclick="mostrarMedicamento(${index})"><i class="bi bi-eye"></i></button>
+            <button class="btn btn-sm btn-primary me-2" onclick="editarMedicamento(${index})"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="excluirMedicamento(${index})"><i class="bi bi-trash"></i></button>
+          </td>
+        `;
+        tabela.appendChild(linha);
+      }
     });
   }
 
@@ -108,8 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     editandoIndex = index;
 
-  const modal = new bootstrap.Modal(document.getElementById('addMedicationModal'));
-  modal.show();
+    const modal = new bootstrap.Modal(document.getElementById('addMedicationModal'));
+    modal.show();
   }
 
   function mostrarMedicamento(index) {
@@ -131,10 +134,28 @@ document.addEventListener('DOMContentLoaded', function () {
     modal.show();
   }
 
+  function abrirModalNovoMedicamento() {
+    editandoIndex = null;
+    document.getElementById('medName').value = '';
+    document.getElementById('medDescription').value = '';
+    document.getElementById('medPresentation').value = '';
+    document.getElementById('medRoute').value = '';
+    document.getElementById('medControlled').value = '';
+    document.getElementById('nomeSim').value = '';
+    const grid = document.getElementById('activeComponentsGrid');
+    grid.innerHTML = '';
+    addActiveComponentRow();
+    const modal = new bootstrap.Modal(document.getElementById('addMedicationModal'));
+    modal.show();
+  }
+
   window.saveForm = saveForm;
   window.editarMedicamento = editarMedicamento;
   window.excluirMedicamento = excluirMedicamento;
   window.mostrarMedicamento = mostrarMedicamento;
+  window.exibirMedicamentos = exibirMedicamentos;
+  window.abrirModalNovoMedicamento = abrirModalNovoMedicamento;
 
+  document.getElementById('searchInput').addEventListener('input', exibirMedicamentos);
   exibirMedicamentos();
 });
